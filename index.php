@@ -1,10 +1,4 @@
-<?php
-    include './functions/lhoopa.php';
-
-    $conn = OpenCon();
-
-    CloseCon($conn);
-?>
+<?php include './functions/lhoopa.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +9,8 @@
     <title>Hands-on Exam</title>
 </head>
 <body>
-    <div class="container p-5">
+    <div class="container p-5 text-center">
+        <h1>List of users</h1>
         <table class="table table-striped table-bordered text-center">
             <thead>
                 <tr>
@@ -32,21 +27,8 @@
             </thead>
             <tbody>
                 <?php
-                    foreach($all as $row) { ?>
-                        <tr>
-                            <td class="py-3"><?= $row['id']; ?></td>
-                            <td class="py-3"><?= $row['name']; ?></td>
-                            <td class="py-3"><?= $row['username']; ?></td>
-                            <td class="py-3"><?= $row['email']; ?></td>
-                            <td class="py-3"><?= $row['address']; ?></td>
-                            <td class="py-3"><?= $row['phone']; ?></td>
-                            <td class="py-3"><?= $row['website']; ?></td>
-                            <td class="py-3"><?= $row['company']; ?></td>
-                            <td class="py-3">
-                                <button type="button" class="btn btn-outline-success btn-sm mx-3">Shortlist</button>
-                            </td>
-                        </tr>
-                <?php } ?>
+                    echo $table_data;
+                ?>
             </tbody>
         </table>
         
