@@ -14,30 +14,24 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    foreach($json_data as $row) {
-        $insert .= "INSERT INTO users(id, name, username, email, address, phone, website, company) VALUES ('".$row['id']."', '".$row['name']."', '".$row['username']."', '".$row['email']."', '".$row['address']['street']."', '".$row['phone']."', '".$row['website']."', '".$row['company']['name']."');";
+    $select = "SELECT * FROM users;";
+    $show = $conn->query($select);
 
-        $table_data .= "
-            <tr>
-                <td>".$row['id']."</td>
-                <td>".$row['name']."</td>
-                <td>".$row['username']."</td>
-                <td>".$row['email']."</td>
-                <td>".$row['address']['street']."</td>
-                <td>".$row['phone']."</td>
-                <td>".$row['website']."</td>
-                <td>".$row['company']['name']."</td>
-                <td><button type='button' class='btn btn-outline-success btn-sm'>Shortlist</button></td>
-            </tr>
-        ";
-    }
-
-    if($conn->multi_query($insert) === FALSE)
+    if($show->num_rows > 0)
     {
-        echo "Error: " . $conn->error;
+        $datas = $show->fetch_all(MYSQLI_ASSOC);
+        
+        return $datas;
     }
-    else {
-        return $table_data;
-    }
+    else
+    {
+        foreach($json_data as $row) {
+            $insert .= "INSERT INTO users(id, name, username, email, address, phone, website, company) VALUES ('".$row['id']."', '".$row['name']."', '".$row['username']."', '".$row['email']."', '".$row['address']['street']."', '".$row['phone']."', '".$row['website']."', '".$row['company']['name']."');";
+        }
 
-    $conn->close();
+        $conn->multi_query($insert);
+
+        $datas = $show->fetch_all(MYSQLI_ASSOC);
+
+        return $datas;
+    }

@@ -1,4 +1,5 @@
 <?php include './functions/lhoopa.php'; ?>
+<?php include './functions/shortlist.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,9 +27,32 @@
                 </tr>
             </thead>
             <tbody>
-                <?php
-                    echo $table_data;
-                ?>
+                <?php foreach($datas as $data): ?>
+                    <tr style="background-color: <?= $data['shortlist'] == 1 ? 'cyan' : 'none' ?>;">
+                        <td><?= $data['id']; ?></td>
+                        <td><?= $data['name']; ?></td>
+                        <td><?= $data['username']; ?></td>
+                        <td><?= $data['email']; ?></td>
+                        <td><?= $data['address']; ?></td>
+                        <td><?= $data['phone']; ?></td>
+                        <td><?= $data['website']; ?></td>
+                        <td><?= $data['company']; ?></td>
+                        <?php if(!$data['shortlist']): ?>
+                            <td>
+                                <form action="./functions/shortlist.php" method="post">
+                                    <input type="hidden" name="id" value="<?= $data['id']; ?>">
+                                    <input type="hidden" name="name" value="<?= $data['name']; ?>">
+                                    <input type="hidden" name="username" value="<?= $data['username']; ?>">
+                                    <button type='submit' name="shortlist" class='btn btn-success btn-sm'>Shortlist</button>
+                                </form>
+                            </td>
+                        <?php else: ?>
+                            <td>
+                                <button class='btn btn-default disabled btn-sm'>Shortlisted</button>
+                            </td>
+                        <?php endif; ?>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
         
